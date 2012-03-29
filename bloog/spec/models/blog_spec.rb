@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require_relative '../spec_helper_lite'
 require_relative '../../app/models/blog'
 require 'ostruct'
 
@@ -17,6 +18,14 @@ describe Blog do
       subject.post_source = ->{ @new_post }
     end
 
+    it "accepts an attribute hash on behalf of the post maker" do
+      post_source = MiniTest::Mock.new
+      post_source.expect(:call, @new_post, [{ x: 42, y: 'z' }])
+      subject.post_source = post_source
+      subject.new_post(x: 42, y: 'z')
+      post_source.verify
+    end
+
     it "return a new post" do
       subject.new_post.must_equal @new_post
     end
@@ -33,4 +42,6 @@ describe Blog do
       subject.entries.must_include(entry)
     end
   end
+
+
 end

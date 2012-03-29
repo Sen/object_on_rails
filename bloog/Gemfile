@@ -8,6 +8,9 @@ gem 'rails', '3.2.2'
 
 gem 'sqlite3'
 
+group :development, :test do
+  gem 'rr'
+end
 
 group :test do
   gem 'minitest'
